@@ -7,6 +7,8 @@ export default function Homepage(props) {
       <div className="col">
         <h1>Rooftop Bar Finder!</h1>
         <p className="lead">Find the best bar.</p>
+        <Search />
+
       </div>
     </div>
   );

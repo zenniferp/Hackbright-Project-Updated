@@ -12,15 +12,6 @@ def create_user(email, password):
 
     return user
 
-# def create_bar(name):
-#     """Create and return a new bar"""
-#     bar = Bar(name=name)
-
-#     db.session.add(bar)
-#     db.session.commit()
-
-#     return bar
-
 def create_favorite(user_id, yelp_id):
     """Create and return a new favorite."""
 
@@ -39,6 +30,12 @@ def get_favorite(user_id, yelp_id):
     favorite = Favorite.query.filter_by(user_id=user_id, yelp_id=yelp_id).first()
 
     return favorite
+
+def get_all_favorites(user_id):
+
+    all_favorites = Favorite.query.filter_by(user_id=user_id)
+
+    return all_favorites
 
 def remove_favorite(user_id, yelp_id):
     """Remove a user's favorite."""

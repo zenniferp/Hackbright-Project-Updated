@@ -1,68 +1,100 @@
-import React, { useState, useEffect } from "react";
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import React, { useState, useEffect, setState } from "react";
+import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from "@react-google-maps/api";
 import Loading from "./Loading";
 import icon from "./images/champagne.png";
 
 // https://react-google-maps-api-docs.netlify.app/#
 export default function MapExample(props) {
-  const [mapData, setMapData] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const {updateResults} = props
+  const [selectedCenter, setSelectedCenter] = useState(null);
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyAjpErE26dDxvQMnZS8I-cUOGjz6WW3rik", // ,
-    // ...otherOptions
+    googleMapsApiKey: "AIzaSyAjpErE26dDxvQMnZS8I-cUOGjz6WW3rik"
   });
-  console.log(props.results);
-  // console.log(mapData);
 
-  // useEffect(() => {
-  //   setLoading(true);
-  //   fetch("/api/search")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setMapData(data);
-  //       setLoading(false);
-  //     });
-  // }, []);
-
-// alias: "rooftop-25-san-francisco-2"
-// categories: (3) [{…}, {…}, {…}]
-// coordinates: {latitude: 37.77851, longitude: -122.39432}
-// display_phone: "(415) 495-5875"
-// distance: 1981.0400188061883
-// favorited: false
-// id: "QHEvjDuIQc7ebYpEaB_TjA"
-// image_url: "https://s3-media2.fl.yelpcdn.com/bphoto/iX_wct_bfl2jOHNAUP70sg/o.jpg"
-// is_closed: false
-// location: {address1: "25 Lusk St", address2: "", address3: null, city: "San Francisco", country: "US", …}
-// name: "Rooftop 25"
-// phone: "+14154955875"
-// price: "$$"
-// rating: 4
-// review_count: 193
-// transactions: ["restaurant_reservation"]
-// url: "https://www.yelp.com/biz/rooftop-25-san-francisco-2?adjust_creative=jL6p_NnsB9Qcc0b9TM8bmw&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=jL6p_NnsB9Qcc0b9TM8bmw"
-// __proto__: Object
-
-// center={{ lat: props.results[0].coordinates.latitude, lng: props.results[0].coordinates.longitude }} 
-
-
-  if (loading || !isLoaded) {
+  if (!isLoaded) {
     return <Loading />;
   }
+
+  const divStyle = {
+    background: `white`,
+    border: `1px solid #ccc`,
+    padding: 15
+  }
+
+  function saveFav(dataPointId){
+    const data = {result_id:dataPointId}
+     fetch('/api/favorite', {
+         method: "POST",
+         headers: {
+             'Content-Type': 'application/json'
+         },
+         body: JSON.stringify(data)
+    })
+  }
+ 
+ function removeFav(dataPointId){
+   const data = {result_id:dataPointId}
+    fetch('/api/unfavorite', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+  })
+ }
+
+ function toggleFav(dataPointId, isFaved) {
+  const updatedResults = [...props.results] // list slice, making a copy
+  for (const updatedResult of updatedResults){
+    if (updatedResult.id === dataPointId){
+      updatedResult.favorited = !updatedResult.favorited //if true set to false, vice versa
+      }
+    }
+  updateResults(updatedResults)
+  if (isFaved) {
+    removeFav(dataPointId);
+    } else {
+      saveFav(dataPointId);
+    }
+  }
+
+  const mapCenter = props.results[0] ? { lat: props.results[0].coordinates.latitude, lng: props.results[0].coordinates.longitude }: { lat: 37.7749, lng: -122.4194 }
+
   return (
     <GoogleMap
-          center={{ lat: 37.7749, lng: -122.4194 }} 
-          mapContainerStyle={{ width: "400px", height: "400px" }} 
-          zoom={5}
-        >
+          mapContainerStyle={{ maxWidth: "1200px", height: "800px" }} 
+          zoom={13}
+          center={mapCenter}
+      >
           {props.results.map((dataPoint) => (
             <Marker
               key={dataPoint.id}
               position={{ lat: dataPoint.coordinates.latitude, lng: dataPoint.coordinates.longitude }}
               icon={icon}
-            />
-            //info window; import above
-          ))}
+              onClick={() => {
+                setSelectedCenter(dataPoint);
+             }}
+            >
+              {selectedCenter==dataPoint ? 
+                <InfoWindow 
+                  position={{ lat: dataPoint.coordinates.latitude, lng: dataPoint.coordinates.longitude }}
+                  onCloseClick={() => {
+                    setSelectedCenter(null);
+                 }}
+                >
+                    <div>
+                      <h1>{dataPoint.name}</h1>
+                      <img src={dataPoint.image_url} width="300" height="300" ></img>
+                      <ul className="bar-info">
+                        <li><b>Address: </b>{dataPoint.location.display_address}</li>
+                        <li><b>Rating: </b>{dataPoint.rating} stars</li>
+                        <li><b><a href={dataPoint.url}>Yelp link</a></b></li>
+                        <li><b><button onClick={ () => toggleFav(dataPoint.id, dataPoint.favorited)}>{dataPoint.favorited ? 'Unfav' : 'Fav'}</button></b></li>
+                      </ul>
+                    </div>
+                </InfoWindow> : null}
+            </Marker>
+          ))};
         </GoogleMap>
       );
 }

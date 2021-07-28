@@ -59,7 +59,7 @@ def search_rooftop():
    
     # Make a request to the Yelp API
     response = requests.get(url=endpoint, params=parameters, headers=headers)
-
+    print(response.status_code)
     # Translate the returned JSON string to a dict
     rooftop_data = response.json()
 
@@ -100,25 +100,13 @@ def get_favorite():
     crud.get_favorite(user_id, yelp_id)
     return jsonify({"success": True})
 
-# @app.route("/api/map_data")
-# def get_map_data():
-#     sleep(2)  # simulate slow connections
-#     map_data = [
-#         {
-#             "name": "Hackbright Academy",
-#             "coords": {"lat": 37.7887459, "lng": -122.4115852},
-#         },
-#         {
-#             "name": "Powell Street Station",
-#             "coords": {"lat": 37.7844605, "lng": -122.4079702},
-#         },
-#         {
-#             "name": "Montgomery Station",
-#             "coords": {"lat": 37.7894094, "lng": -122.4013037},
-#         },
-#     ]
+@app.route('/api/getallfavorites', methods=['POST'])
+def get_all_favorites():
 
-#     return jsonify(map_data)
+    user_id = User.query.first().user_id
+    print("result_id")
+    crud.get_all_favorites(user_id)
+    return jsonify({"success": True})
 
 
 if __name__ == "__main__":

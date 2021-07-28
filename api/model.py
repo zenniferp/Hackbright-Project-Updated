@@ -16,20 +16,6 @@ class User(db.Model):
     def __repr__(self):
         return f"<User user_id={self.user_id} email={self.email}>"
 
-# class Bar(db.Model):
-#     """A bar"""
-
-#     __tablename__ = "bars"
-
-#     bar_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-#     name = db.Column(db.String)
-#     yelp_id = db.Column(db.String)
-
-#     #favorites = a list of Favorite objects
-
-#     def __repr__(self):
-#         return f"<Bar bar_id={self.bar_id} name={self.name}>"
-
 class Favorite(db.Model):
     """User's favorited bar"""
 

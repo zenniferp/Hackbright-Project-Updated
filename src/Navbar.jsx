@@ -19,8 +19,15 @@ export default function Navbar(props) {
           activeClassName="navlink-active"
           className="nav-link nav-item"
         >
-          Map
+          Map?
         </NavLink>
+        {/* <NavLink
+          to="/favorites"
+          activeClassName="navlink-active"
+          className="nav-link nav-item"
+        >
+          Show My Favorites
+        </NavLink> */}
       </section>
     </nav>
   );

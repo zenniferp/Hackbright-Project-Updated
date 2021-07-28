@@ -73,10 +73,9 @@ export default function Search(props) {
                         placeholder="within how many miles?"
                         onChange={evt => updateRadius(evt.target.value)} required={true} />
                     </p>
-                    <button type="submit">Search</button>
                 </form>
             </div>
-            {showMap && <MapExample results={results}/>}
+            {showMap && <MapExample results={results} updateResults={updateResults}/>}
         </Fragment>
     );
 }

@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import Homepage from "./Homepage";
 import MapExample from "./MapExample"; //from the current folder (.) import MapExample
 import Search from "./Search";
+import SearchFavorites from "./SearchFavorites";
 import "./App.css";
 
 function App() {
@@ -16,11 +17,14 @@ function App() {
         <Route exact path="/">
           <Homepage />
         </Route>
-        <Route exact path="/search">
+        <Route exact path="/search"> 
           <Search />
         </Route>
         <Route exact path="/map">
           <MapExample />
+        </Route>
+        <Route exact path="/favorites">
+          <SearchFavorites />
         </Route>
       </div>
     </BrowserRouter>
