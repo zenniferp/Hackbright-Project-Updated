@@ -100,13 +100,16 @@ def get_favorite():
     crud.get_favorite(user_id, yelp_id)
     return jsonify({"success": True})
 
-@app.route('/api/getallfavorites', methods=['POST'])
+@app.route('/api/getallfavorites', methods=['GET'])
 def get_all_favorites():
 
     user_id = User.query.first().user_id
     print("result_id")
     crud.get_all_favorites(user_id)
     return jsonify({"success": True})
+
+#hard code the data in return statement first to see if the front end works
+# convert sqlalchemy to the data structure Map understands aka id, coordinates, favorited; look at ratings lab to convert data; loop through the result and add to a dictionary
 
 
 if __name__ == "__main__":

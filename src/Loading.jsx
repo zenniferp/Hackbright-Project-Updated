@@ -1,5 +1,5 @@
 import React from "react";
-import Loadingimage from "./images/watermelon-loading.png";
+import Loadingimage from "./images/champagne.png";
 export default function Loading() {
   return (
     <div className="loading-box">

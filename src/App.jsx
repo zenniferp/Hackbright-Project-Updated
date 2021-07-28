@@ -4,7 +4,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./Navbar";
 import Homepage from "./Homepage";
-import MapExample from "./MapExample"; //from the current folder (.) import MapExample
+import Map from "./Map"; //from the current folder (.) import MapExample
 import Search from "./Search";
 import SearchFavorites from "./SearchFavorites";
 import "./App.css";
@@ -16,12 +16,6 @@ function App() {
       <div className="container-fluid">
         <Route exact path="/">
           <Homepage />
-        </Route>
-        <Route exact path="/search"> 
-          <Search />
-        </Route>
-        <Route exact path="/map">
-          <MapExample />
         </Route>
         <Route exact path="/favorites">
           <SearchFavorites />

@@ -1,6 +1,6 @@
 import React, { useState, Fragment} from "react"
 import { useHistory } from "react-router-dom"
-import MapExample from "./MapExample"
+import Map from "./Map"
 
 
 export default function Search(props) {
@@ -17,7 +17,7 @@ export default function Search(props) {
 
 // Redirect to a map view
     let history = useHistory();
-    const [showMap, updateShowMap] = useState(true)
+    const [showMap, updateShowMap] = useState(false)
 
 // Get data from the backend
     const handleSubmit = (evt) => {
@@ -73,9 +73,10 @@ export default function Search(props) {
                         placeholder="within how many miles?"
                         onChange={evt => updateRadius(evt.target.value)} required={true} />
                     </p>
+                    <button type="submit">Search</button>
                 </form>
             </div>
-            {showMap && <MapExample results={results} updateResults={updateResults}/>}
+            {showMap && <Map results={results} updateResults={updateResults}/>}
         </Fragment>
     );
 }

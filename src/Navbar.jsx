@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom'
-import logoPath from "./images/watermelon.png";
+import logoPath from "./images/champagne.png";
 
 export default function Navbar(props) {
   return (
@@ -14,20 +14,27 @@ export default function Navbar(props) {
       </Link>
 
       <section className="d-flex justify-content-end">
-        <NavLink
+        {/* <NavLink
           to="/map"
           activeClassName="navlink-active"
           className="nav-link nav-item"
         >
           Map?
-        </NavLink>
-        {/* <NavLink
+        </NavLink> */}
+        <NavLink
           to="/favorites"
           activeClassName="navlink-active"
           className="nav-link nav-item"
         >
           Show My Favorites
-        </NavLink> */}
+        </NavLink>
+        <NavLink
+          to="/logout"
+          activeClassName="navlink-active"
+          className="nav-link nav-item"
+        >
+          Logout
+        </NavLink>
       </section>
     </nav>
   );
