@@ -2,6 +2,8 @@ from flask import Flask, jsonify, send_from_directory, render_template, request,
 from time import sleep
 import requests
 import json
+
+from requests import sessions
 import crud
 from model import connect_to_db, User
 from jinja2 import StrictUndefined
@@ -11,25 +13,6 @@ app = Flask(__name__)
 app.secret_key = "secret"
 app.jinja_env.undefined = StrictUndefined
 
-
-# TBD: Add routes for production mode
-
-# @app.route("/")
-# def home():
-
-#     return render_template("index.html")
-
-
-# @app.route("/<path>")
-# def route(path):
-
-#     return render_template("index.html")
-
-
-# @app.route("/<path>/<code>")
-# def nested_route(path, code):
-
-#     return render_template("index.html")
 
 @app.route('/')
 def home():
@@ -70,7 +53,6 @@ def search_rooftop():
         yelp_id = business["id"]
         favorite = crud.get_favorite(user_id, yelp_id)
         business["favorited"] = True if favorite else False
-
     return jsonify(businesses)
 
 @app.route('/api/favorite', methods=['POST'])
@@ -103,14 +85,51 @@ def get_favorite():
 @app.route('/api/getallfavorites', methods=['GET'])
 def get_all_favorites():
 
-    user_id = User.query.first().user_id
-    print("result_id")
-    crud.get_all_favorites(user_id)
+    # user_id = User.query.first().user_id
+    if "user_id" in session:
+        user_id = session["user_id"]
+        all_favorites = crud.get_all_favorites(user_id)
+        businesses = []
+        business_ids = set()
+
+        for favorite in all_favorites:
+            if favorite.yelp_id not in business_ids:
+                endpoint = f'https://api.yelp.com/v3/businesses/{favorite.yelp_id}'
+                headers = {'Authorization': 'Bearer %s' % YELP_API_KEY}
+            
+                response = requests.get(url=endpoint, headers=headers)
+
+                business_data = response.json()
+                
+                business_data["yelp_id"] = business_data["id"]
+                business_ids.add(business_data["yelp_id"])
+                business_data["favorited"] = True
+                businesses.append(business_data)
+
+        return jsonify(businesses)
+    else: 
+        return jsonify({"success": False})
+
+@app.route('/login', methods=['POST'])
+def login(): 
+    # form data from frontend
+    email = request.json.get("email")
+    password = request.json.get("password")
+
+    user = crud.get_user_by_email(email)
+    
+    if user and password == user.password:
+        session["user_id"] = user.user_id 
+        return jsonify({"success": True})
+    else: 
+        return jsonify({"success": False})
+
+@app.route('/logout', methods=['POST'])
+def logout():
+
+    if "user_id" in session:
+        del session["user_id"]
     return jsonify({"success": True})
-
-#hard code the data in return statement first to see if the front end works
-# convert sqlalchemy to the data structure Map understands aka id, coordinates, favorited; look at ratings lab to convert data; loop through the result and add to a dictionary
-
 
 if __name__ == "__main__":
 

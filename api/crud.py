@@ -12,6 +12,12 @@ def create_user(email, password):
 
     return user
 
+def get_user_by_email(email):
+    user = User.query.filter_by(email=email).first()
+
+    return user
+
+
 def create_favorite(user_id, yelp_id):
     """Create and return a new favorite."""
 
@@ -33,7 +39,7 @@ def get_favorite(user_id, yelp_id):
 
 def get_all_favorites(user_id):
 
-    all_favorites = Favorite.query.filter_by(user_id=user_id)
+    all_favorites = Favorite.query.filter_by(user_id=user_id).all()
 
     return all_favorites
 

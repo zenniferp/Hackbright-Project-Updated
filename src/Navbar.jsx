@@ -14,13 +14,6 @@ export default function Navbar(props) {
       </Link>
 
       <section className="d-flex justify-content-end">
-        {/* <NavLink
-          to="/map"
-          activeClassName="navlink-active"
-          className="nav-link nav-item"
-        >
-          Map?
-        </NavLink> */}
         <NavLink
           to="/favorites"
           activeClassName="navlink-active"
