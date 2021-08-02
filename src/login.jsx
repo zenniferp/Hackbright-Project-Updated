@@ -14,9 +14,12 @@
 
 // pass islogged in as props from app.jsx
 
-function Login(props){
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+import React, { useState } from "react";
+
+export default function Login(props){
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
     function handleSubmit(evt){
       evt.preventDefault();
       fetch('/api/login', 

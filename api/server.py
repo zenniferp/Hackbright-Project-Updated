@@ -85,30 +85,30 @@ def get_favorite():
 @app.route('/api/getallfavorites', methods=['GET'])
 def get_all_favorites():
 
-    # user_id = User.query.first().user_id
-    if "user_id" in session:
-        user_id = session["user_id"]
-        all_favorites = crud.get_all_favorites(user_id)
-        businesses = []
-        business_ids = set()
+    user_id = User.query.first().user_id
+    # if "user_id" in session:
+    #     user_id = session["user_id"]
+    all_favorites = crud.get_all_favorites(user_id)
+    businesses = []
+    business_ids = set()
 
-        for favorite in all_favorites:
-            if favorite.yelp_id not in business_ids:
-                endpoint = f'https://api.yelp.com/v3/businesses/{favorite.yelp_id}'
-                headers = {'Authorization': 'Bearer %s' % YELP_API_KEY}
+    for favorite in all_favorites:
+        if favorite.yelp_id not in business_ids:
+            endpoint = f'https://api.yelp.com/v3/businesses/{favorite.yelp_id}'
+            headers = {'Authorization': 'Bearer %s' % YELP_API_KEY}
+        
+            response = requests.get(url=endpoint, headers=headers)
+
+            business_data = response.json()
             
-                response = requests.get(url=endpoint, headers=headers)
+            business_data["yelp_id"] = business_data["id"]
+            business_ids.add(business_data["yelp_id"])
+            business_data["favorited"] = True
+            businesses.append(business_data)
 
-                business_data = response.json()
-                
-                business_data["yelp_id"] = business_data["id"]
-                business_ids.add(business_data["yelp_id"])
-                business_data["favorited"] = True
-                businesses.append(business_data)
-
-        return jsonify(businesses)
-    else: 
-        return jsonify({"success": False})
+    return jsonify(businesses)
+        # else: 
+        #     return jsonify({"success": False})
 
 @app.route('/login', methods=['POST'])
 def login(): 

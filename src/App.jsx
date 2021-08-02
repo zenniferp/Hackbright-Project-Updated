@@ -10,11 +10,11 @@ import ShowFavorites from "./Favorites";
 import "./App.css";
 
 function App() {
-  const [user, setUser] = React.useState(false);
-  const { pathname } = useLocation();
-  if (!user && pathname != "/login") {
-    return <Redirect to="/login" />;
-  }
+  // const [user, setUser] = React.useState(false);
+  // const { pathname } = useLocation();
+  // if (!user && pathname != "/login") {
+  //   return <Redirect to="/login" />;
+  // }
   return (
     <BrowserRouter>
       <Navbar />
@@ -25,12 +25,13 @@ function App() {
         <Route exact path="/favorites">
           <ShowFavorites />
         </Route>
-        <Route exact path="/login">
+        {/* <Route exact path="/login">
           <Login setUserInfo={setUser} />
-        </Route>
+        </Route> */}
       </div>
     </BrowserRouter>
   );
 }
 ReactDOM.render(<App />, document.querySelector("#root"));
 export default App;
+
