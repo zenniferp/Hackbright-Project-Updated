@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ReactDOM, {ReactRouterDOM} from "react-dom";
-import { BrowserRouter, Route, useLocation, Router } from "react-router-dom";
+import ReactDOM from "react-dom";
+import { BrowserRouter, Route, useLocation, Router, Redirect } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Navbar from "./Navbar";
 import Homepage from "./Homepage";
@@ -10,12 +10,10 @@ import ShowFavorites from "./Favorites";
 import "./App.css";
 
 function App() {
-
   const [user, setUser] = React.useState(false);
-  const { pathname } = ReactRouterDOM.useLocation();
-
+  const { pathname } = useLocation();
   if (!user && pathname != "/login") {
-    return <ReactRouterDOM.Redirect to="/login" />;
+    return <Redirect to="/login" />;
   }
   return (
     <BrowserRouter>
@@ -34,7 +32,5 @@ function App() {
     </BrowserRouter>
   );
 }
-
 ReactDOM.render(<App />, document.querySelector("#root"));
-
 export default App;
