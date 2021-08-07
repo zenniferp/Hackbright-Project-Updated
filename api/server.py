@@ -110,26 +110,26 @@ def get_all_favorites():
         # else: 
         #     return jsonify({"success": False})
 
-@app.route('/login', methods=['POST'])
-def login(): 
-    # form data from frontend
-    email = request.json.get("email")
-    password = request.json.get("password")
+# @app.route('/login', methods=['POST'])
+# def login(): 
+#     # form data from frontend
+#     email = request.json.get("email")
+#     password = request.json.get("password")
 
-    user = crud.get_user_by_email(email)
+#     user = crud.get_user_by_email(email)
     
-    if user and password == user.password:
-        session["user_id"] = user.user_id 
-        return jsonify({"success": True})
-    else: 
-        return jsonify({"success": False})
+#     if user and password == user.password:
+#         session["user_id"] = user.user_id 
+#         return jsonify({"success": True})
+#     else: 
+#         return jsonify({"success": False})
 
-@app.route('/logout', methods=['POST'])
-def logout():
+# @app.route('/logout', methods=['POST'])
+# def logout():
 
-    if "user_id" in session:
-        del session["user_id"]
-    return jsonify({"success": True})
+#     if "user_id" in session:
+#         del session["user_id"]
+#     return jsonify({"success": True})
 
 if __name__ == "__main__":
 

@@ -41,39 +41,34 @@ export default function Search(props) {
 // Pass the user input (evt target value) and update state
     return (
         <Fragment>
-            <div className="search">
-                <p> Search for a rooftop bar near you! </p>
-                <form onSubmit = {handleSubmit}>
-                    <p>
+            <div className="search bg-transparent text-center py-5">
+                <p className="small-title"> Search for a rooftop bar near you! </p>
+                <form onSubmit = {handleSubmit}>                 
                     <input
                         type="text"
                         value={street}
                         name="street"
                         placeholder="street"
                         onChange={evt => updateStreet(evt.target.value)} required={true} />
-                    </p><p>
                     <input
                         type="text"
                         value={city}
                         name="city"
                         placeholder="city"
                         onChange={evt => updateCity(evt.target.value)} required={true} />
-                    </p><p>
                     <input
                         type="text"
                         value={state}
                         name="state"
                         placeholder="state"
                         onChange={evt => updateState(evt.target.value)} required={true} />
-                    </p><p>
                     <input
                         type="number"
                         value={radius}
                         name="radius"
                         placeholder="within how many miles?"
                         onChange={evt => updateRadius(evt.target.value)} required={true} />
-                    </p>
-                    <button type="submit">Search</button>
+                    <button type="submit" class="btn btn-outline-warning">Search</button>
                 </form>
             </div>
             {showMap && <Map results={results} updateResults={updateResults}/>}

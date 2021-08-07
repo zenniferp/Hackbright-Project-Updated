@@ -197,8 +197,9 @@ export default function Map(props) {
     }
   ]}
   return (
+    <div className="mapcontainer row justify-content-center">
     <GoogleMap
-          mapContainerStyle={{ maxWidth: "1200px", height: "800px" }} 
+          mapContainerStyle={{ maxWidth: "1600px", height: "1200px" }} 
           zoom={13}
           center={mapCenter}
           options={mapStyle}
@@ -219,7 +220,7 @@ export default function Map(props) {
                     setSelectedCenter(null);
                  }}
                 >
-                    <div>
+                    <div className="info-text">
                       <h1>{dataPoint.name}</h1>
                       <img src={dataPoint.image_url} width="300" height="300" ></img>
                       <ul className="bar-info">
@@ -233,5 +234,6 @@ export default function Map(props) {
             </Marker>
           ))};
         </GoogleMap>
+        </div>
       );
 }

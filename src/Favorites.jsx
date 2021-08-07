@@ -17,6 +17,8 @@ export default function ShowFavorites(props) {
     }, []);
 
     return (
+            <div className="map-container mb-3 py-5" >
             <Map results={results} updateResults={updateResults}/>
+            </div>
     );
 }
