@@ -10,7 +10,7 @@ export default function Navbar(props) {
         className="havbar-brand d-flex justify-content-center nav-link"
       >
         <img src={logoPath} height="30" />
-        <span class="text-white">Rooftop Bar Finder</span>
+        <span class="text-white"><b>Rooftop Bar Finder</b></span>
       </Link>
 
       <section className="d-flex justify-content-end">
@@ -19,14 +19,14 @@ export default function Navbar(props) {
           activeClassName="navlink-active"
           className="nav-link nav-item text-white"
         >
-          Show My Favorites
+          <b>Show My Favorites</b>
         </NavLink>
         <NavLink
           to="/logout"
           activeClassName="navlink-active"
           className="nav-link nav-item text-white"
         >
-          Logout
+          <b>Logout</b>
         </NavLink>
       </section>
     </nav>

@@ -29,14 +29,13 @@
 .col-title {
   text-align: center;
   color: white;
-  margin-top: 100px;
+  margin-top: 95px;
 }
 
 .small-title {
-  font-size: 25px;
+  font-size: 45px;
   font-family: serif;
   font-weight: normal;
-
 }
 
 input {
@@ -44,7 +43,7 @@ input {
   width: 300px;
   border: 1px solid black;
   margin-right:4px;
-  margin-top: 30px;
+  margin-top: 40px;
 }
 
 .info-text {

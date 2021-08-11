@@ -68,7 +68,7 @@ export default function Search(props) {
                         name="radius"
                         placeholder="within how many miles?"
                         onChange={evt => updateRadius(evt.target.value)} required={true} />
-                    <button type="submit" class="btn btn-outline-warning">Search</button>
+                    <button type="submit" class="btn btn-outline-warning"><b>Search</b></button>
                 </form>
             </div>
             {showMap && <Map results={results} updateResults={updateResults}/>}
